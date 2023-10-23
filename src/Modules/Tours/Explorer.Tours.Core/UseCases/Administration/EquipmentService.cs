@@ -22,8 +22,13 @@ public class EquipmentService : CrudService<EquipmentDto, Equipment>, IEquipment
 
     public Result<List<EquipmentDto>> GetAvailable(List<long> currentEquipmentIds, int tourId)
     {
-        var isEquipmentValid = _tourEquipmentRepository.IsEquipmentValid(tourId, currentEquipmentIds);
-        if(!isEquipmentValid) return Result.Fail(FailureCode.NotFound);
+
+        //Da li mora nuzno!
+        if (currentEquipmentIds.Count > 0)
+        {
+            var isEquipmentValid = _tourEquipmentRepository.IsEquipmentValid(tourId, currentEquipmentIds);
+            if (!isEquipmentValid) return Result.Fail(FailureCode.NotFound);
+        }
 
         var availableEquipment = _equipmentRepository.GetAvailable(currentEquipmentIds);
         return MapToDto(availableEquipment);
