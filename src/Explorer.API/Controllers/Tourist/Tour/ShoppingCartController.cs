@@ -45,5 +45,28 @@ namespace Explorer.API.Controllers.Tourist.Tour
 			var result = _shoppingCartService.Delete(id);
 			return CreateResponse(result);
 		}
+
+		[HttpGet("checkShoppingCart/{touristId}")]
+		public IActionResult CheckShoppingCart(int touristId)
+		{
+			var result = _shoppingCartService.CheckIfShoppingCartExists(touristId);
+
+			if (result.IsSuccess)
+			{
+				return Ok(result.Value); 
+			}
+			else
+			{
+				return BadRequest(result.Errors);
+			}
+		}
+
+		[HttpGet("getShoppingCart/{touristId}")]
+		public ActionResult<ShoppingCartDto> GetShoppingCart(int touristId)
+		{
+			var result = _shoppingCartService.GetShoppingCart(touristId);
+			return CreateResponse(result);
+		}
+
 	}
 }

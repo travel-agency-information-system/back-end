@@ -9,5 +9,7 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
 {
 	public interface IShoppingCartRepository : ICrudRepository<ShoppingCart>
 	{
+		bool ShoppingCartExists(int touristId);
+		ShoppingCart GetShoppingCart(int touristId);
 	}
 }

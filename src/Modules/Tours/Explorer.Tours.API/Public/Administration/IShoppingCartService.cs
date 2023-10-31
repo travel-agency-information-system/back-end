@@ -15,5 +15,7 @@ namespace Explorer.Tours.API.Public.Administration
 		Result<ShoppingCartDto> Create(ShoppingCartDto shoppingCart);
 		Result<ShoppingCartDto> Update(ShoppingCartDto shoppingCart);
 		Result Delete(int id);
+		Result<bool> CheckIfShoppingCartExists(int touristId);
+		Result<ShoppingCartDto> GetShoppingCart(int touristId);
 	}
 }

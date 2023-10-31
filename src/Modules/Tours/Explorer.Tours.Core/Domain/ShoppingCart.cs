@@ -12,6 +12,10 @@ namespace Explorer.Tours.Core.Domain
 		public long TouristId { get; init; }
 		public List<OrderItem> Items { get; init; }
 		public double Price { get; init; }
+		public ShoppingCart()
+		{
+			// Inicijalizacija po potrebi
+		}
 
 		public ShoppingCart(long touristId, List<OrderItem> items) 
 		{ 
