@@ -35,7 +35,9 @@ public static class ToursStartup
         services.AddScoped<IReportedIssuesReviewService, ReportedIssuesReviewService>();
         services.AddScoped<IReportingIssueService, ReportingIssueService>();
         services.AddScoped<ITourRatingService, TourRatingService>();
-    }
+		services.AddScoped<IShoppingCartService, ShoppingCartService>();
+		services.AddScoped<IOrderItemService, OrderItemService>();
+	}
     private static void SetupInfrastructure(IServiceCollection services)
     {
         services.AddScoped(typeof(ICrudRepository<Equipment>), typeof(CrudDatabaseRepository<Equipment, ToursContext>));
@@ -48,8 +50,10 @@ public static class ToursStartup
         services.AddScoped(typeof(IEquipmentRepository), typeof(EquipmentDatabaseRepository));
         services.AddScoped(typeof(ICrudRepository<ReportedIssue>), typeof(CrudDatabaseRepository<ReportedIssue, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<TourRating>), typeof(CrudDatabaseRepository<TourRating, ToursContext>));
+		services.AddScoped(typeof(IShoppingCartRepository), typeof(ShoppingCartDatabaseRepository));
+		services.AddScoped(typeof(IOrderItemRepository), typeof(OrderItemDatabaseRepository));
 
-        services.AddDbContext<ToursContext>(opt =>
+		services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),
                 x => x.MigrationsHistoryTable("__EFMigrationsHistory", "tours")));
     }

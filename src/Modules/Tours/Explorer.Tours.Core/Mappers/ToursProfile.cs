@@ -17,6 +17,8 @@ public class ToursProfile : Profile
         CreateMap<TourDto, Tour>().ReverseMap();
         CreateMap<ReportedIssueDto, ReportedIssue>().ReverseMap();
         CreateMap<TourRatingDto, TourRating>().ReverseMap();
+        CreateMap<ShoppingCartDto, ShoppingCart>().ReverseMap();
+        CreateMap<OrderItemDto, OrderItem>().ReverseMap();
     }
 
     private MapObjectType MapObjectTypeFromString(string category)
