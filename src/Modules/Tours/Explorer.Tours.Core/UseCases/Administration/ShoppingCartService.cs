@@ -20,6 +20,8 @@ namespace Explorer.Tours.Core.UseCases.Administration
 		{
 			_shoppingCartRepository = repository;
 		}
+
+		// za obicni tip promenljive
 		public Result<bool> CheckIfShoppingCartExists(int touristId)
 		{
 			try
@@ -33,6 +35,7 @@ namespace Explorer.Tours.Core.UseCases.Administration
 			}
 		}
 
+		// za objekat
 		public Result<ShoppingCartDto> GetShoppingCart(int touristId)
 		{
 			try
@@ -46,5 +49,18 @@ namespace Explorer.Tours.Core.UseCases.Administration
 			}
 		}
 
-	}
+		// za listu
+		/*public Result<PagedResult<CheckpointDto>> GetPagedByTour(int page, int pageSize, int id)
+		{
+			try
+			{
+				return MapToDto(_checkpointRepository.GetPagedByTour(page, pageSize, id));
+			}
+			catch (KeyNotFoundException e)
+			{
+				return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+			}
+		}*/
+
+}
 }

@@ -12,6 +12,7 @@ namespace Explorer.Tours.Core.Domain
 		public long TourId { get; init; }
 		public String TourName { get; init; }
 		public double Price { get; init; }
+		// id korpe kojoj stavka pripada 
 
 		public OrderItem(long tourId, String tourName, double price) 
 		{

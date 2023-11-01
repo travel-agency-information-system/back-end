@@ -21,6 +21,7 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
 
 		public ShoppingCart GetShoppingCart(int touristId)
 		{
+			// ovde da se uveze
 			return DbContext.ShoppingCarts.FirstOrDefault(sc => sc.TouristId == touristId);
 		}
 	}
