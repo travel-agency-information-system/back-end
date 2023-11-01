@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Explorer.Tours.Infrastructure.Database.Repositories
 {
@@ -21,8 +22,13 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
 
 		public ShoppingCart GetShoppingCart(int touristId)
 		{
-			// ovde da se uveze
-			return DbContext.ShoppingCarts.FirstOrDefault(sc => sc.TouristId == touristId);
-		}
+          
+            //return DbContext.ShoppingCarts.FirstOrDefault(sc => sc.TouristId == touristId);
+
+            var shoppingCart = DbContext.ShoppingCarts
+			.Include(sc => sc.Items) 
+			.FirstOrDefault(sc => sc.TouristId == touristId);
+			return shoppingCart;
+        }
 	}
 }

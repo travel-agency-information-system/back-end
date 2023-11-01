@@ -32,8 +32,10 @@ public class ToursContext : DbContext
             .HasMany(t => t.Equipment)
             .WithMany()
             .UsingEntity<TourEquipment>();
+
         ConfigureReportedIssues(modelBuilder);
         ConfigureTourRatings(modelBuilder);
+        ConfigureShoppingCart(modelBuilder);
     }
     private static void ConfigureReportedIssues(ModelBuilder modelBuilder)
     {
@@ -43,4 +45,13 @@ public class ToursContext : DbContext
     {
         modelBuilder.Entity<TourRating>().HasOne(t => t.Tour).WithMany().HasForeignKey(t => t.TourId);
     }
+
+    private static void ConfigureShoppingCart(ModelBuilder modelBuilder) //dodala 
+    {
+        modelBuilder.Entity<ShoppingCart>()
+            .HasMany(cart => cart.Items) 
+            .WithOne(item => item.ShoppingCart)
+            .HasForeignKey(item => item.ShoppingCartId);
+    }
+
 }

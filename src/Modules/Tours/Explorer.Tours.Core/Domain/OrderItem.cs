@@ -12,9 +12,10 @@ namespace Explorer.Tours.Core.Domain
 		public long TourId { get; init; }
 		public String TourName { get; init; }
 		public double Price { get; init; }
-		// id korpe kojoj stavka pripada 
+		public long ShoppingCartId { get; init; }  // dodala
+		public ShoppingCart ShoppingCart { get; init; } //dodala
 
-		public OrderItem(long tourId, String tourName, double price) 
+        public OrderItem(long tourId, String tourName, double price) 
 		{
 			TourId = tourId; 
 			TourName = tourName; 
