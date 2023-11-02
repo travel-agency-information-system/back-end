@@ -17,5 +17,7 @@ namespace Explorer.Tours.API.Public.Administration
 		Result Delete(int id);
 		Result<bool> CheckIfShoppingCartExists(int touristId);
 		Result<ShoppingCartDto> GetShoppingCart(int touristId);
-	}
+		Result<ShoppingCartDto> CheckoutShoppingCart(int touristId); //dodala
+
+    }
 }

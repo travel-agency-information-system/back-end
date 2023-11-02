@@ -19,6 +19,7 @@ public class ToursProfile : Profile
         CreateMap<TourRatingDto, TourRating>().ReverseMap();
         CreateMap<ShoppingCartDto, ShoppingCart>().ReverseMap();
         CreateMap<OrderItemDto, OrderItem>().ReverseMap();
+        CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap(); //dodala
     }
 
     private MapObjectType MapObjectTypeFromString(string category)

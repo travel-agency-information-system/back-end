@@ -44,5 +44,6 @@ namespace Explorer.API.Controllers.Tourist.Tour
 			var result = _orderItemService.Delete(id);
 			return CreateResponse(result);
 		}
+
 	}
 }

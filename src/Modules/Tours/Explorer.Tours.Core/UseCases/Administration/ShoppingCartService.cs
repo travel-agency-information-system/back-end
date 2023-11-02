@@ -16,10 +16,13 @@ namespace Explorer.Tours.Core.UseCases.Administration
 	public class ShoppingCartService : CrudService<ShoppingCartDto, ShoppingCart>, IShoppingCartService
 	{
 		private readonly IShoppingCartRepository _shoppingCartRepository;
-		public ShoppingCartService(IShoppingCartRepository repository, IMapper mapper) : base(repository, mapper)
+		private readonly ITourPurchaseTokenRepository _tourPurchaseTokenRepository;
+		public ShoppingCartService(IShoppingCartRepository repository, IMapper mapper, ITourPurchaseTokenRepository tourPurchaseTokenRepository) : base(repository, mapper)
 		{
-			_shoppingCartRepository = repository;
-		}
+			this._shoppingCartRepository = repository;
+			this._tourPurchaseTokenRepository = tourPurchaseTokenRepository; //nisam sigurna da ide ovako, proveri 
+
+        }
 
 		// za obicni tip promenljive
 		public Result<bool> CheckIfShoppingCartExists(int touristId)
@@ -49,8 +52,29 @@ namespace Explorer.Tours.Core.UseCases.Administration
 			}
 		}
 
-		// za listu
-		/*public Result<PagedResult<CheckpointDto>> GetPagedByTour(int page, int pageSize, int id)
+		//nzm jel dobro, sta treba da vraca 
+        public Result<ShoppingCartDto> CheckoutShoppingCart(int touristId)
+        {
+            try
+            {
+                var result = _shoppingCartRepository.GetShoppingCart(touristId);
+
+				foreach(var item in result.Items)
+				{
+					var newToken = new TourPurchaseToken(touristId, item.TourId);
+					_tourPurchaseTokenRepository.Create(newToken);
+				}
+                return MapToDto(result);
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
+
+
+        // za listu
+        /*public Result<PagedResult<CheckpointDto>> GetPagedByTour(int page, int pageSize, int id)
 		{
 			try
 			{
@@ -62,5 +86,5 @@ namespace Explorer.Tours.Core.UseCases.Administration
 			}
 		}*/
 
-}
+    }
 }

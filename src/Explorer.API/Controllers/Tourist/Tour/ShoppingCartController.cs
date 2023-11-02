@@ -2,6 +2,7 @@
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.Domain;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,11 +63,18 @@ namespace Explorer.API.Controllers.Tourist.Tour
 		}
 
 		[HttpGet("getShoppingCart/{touristId}")]
-		public ActionResult<ShoppingCartDto> GetShoppingCart(int touristId)
+		public ActionResult<ShoppingCartDto> GetShoppingCart(int touristId) //zasto int ovde, treba long?
 		{
 			var result = _shoppingCartService.GetShoppingCart(touristId);
 			return CreateResponse(result);
 		}
 
-	}
+        [HttpGet("checkoutShoppingCart/{touristId}")]
+        public ActionResult<ShoppingCartDto> CheckoutShoppingCart(int touristId)
+        {
+            var cart = _shoppingCartService.CheckoutShoppingCart(touristId); //da li se treba isprazniti korpu, obrisati?
+            return CreateResponse(cart);
+        }
+
+    }
 }

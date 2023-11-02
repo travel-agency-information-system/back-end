@@ -37,7 +37,9 @@ public static class ToursStartup
         services.AddScoped<ITourRatingService, TourRatingService>();
 		services.AddScoped<IShoppingCartService, ShoppingCartService>();
 		services.AddScoped<IOrderItemService, OrderItemService>();
-	}
+        services.AddScoped<ITourPurchaseTokenService, TourPurchaseTokenService>(); //dodala
+
+    }
     private static void SetupInfrastructure(IServiceCollection services)
     {
         services.AddScoped(typeof(ICrudRepository<Equipment>), typeof(CrudDatabaseRepository<Equipment, ToursContext>));
@@ -52,8 +54,9 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<TourRating>), typeof(CrudDatabaseRepository<TourRating, ToursContext>));
 		services.AddScoped(typeof(IShoppingCartRepository), typeof(ShoppingCartDatabaseRepository));
 		services.AddScoped(typeof(IOrderItemRepository), typeof(OrderItemDatabaseRepository));
+        services.AddScoped(typeof(ITourPurchaseTokenRepository), typeof(TourPurchaseTokenDatabaseRepository)); //dodala
 
-		services.AddDbContext<ToursContext>(opt =>
+        services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),
                 x => x.MigrationsHistoryTable("__EFMigrationsHistory", "tours")));
     }
