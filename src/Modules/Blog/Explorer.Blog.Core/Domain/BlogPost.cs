@@ -58,10 +58,14 @@ public class BlogPost : Entity
         if (existingRating is not null)
         {
             if (existingRating.Rating == blogRating.Rating)
-                throw new ArgumentException("Cannot vote with the same rating again.");
-
-            existingRating.Rating = blogRating.Rating;
-            existingRating.TimeStamp = DateTime.Now;
+            {
+                Ratings.Remove(existingRating);
+            }
+            else
+            {
+                existingRating.Rating = blogRating.Rating;
+                existingRating.TimeStamp = DateTime.Now;
+            }
         }
         else
         {
