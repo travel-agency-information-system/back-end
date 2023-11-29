@@ -135,8 +135,8 @@ public class EncounterCommandTests : BaseEncountersIntegrationTest
         var controller = CreateController(scope);
         var dbContext = scope.ServiceProvider.GetRequiredService<EncountersContext>();
         var expectedResponseCode = 200;
-        var encounterId = -3;
-        var touristId = -2;
+        var encounterId = -1;
+        var touristId = -21;
 
         // Act
         var result = (ObjectResult)controller.FinishEncounter(encounterId,touristId).Result;

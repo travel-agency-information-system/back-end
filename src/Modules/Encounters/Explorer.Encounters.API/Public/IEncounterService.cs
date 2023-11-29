@@ -7,8 +7,6 @@ namespace Explorer.Encounters.API.Public
     {
         Result<EncounterDto> Create(EncounterDto encounter, long checkpointId, bool isSecretPrerequisite,long userId);
         Result<EncounterDto> FinishEncounter(int encounterId, int touristId);
-
-
     }
 
 }

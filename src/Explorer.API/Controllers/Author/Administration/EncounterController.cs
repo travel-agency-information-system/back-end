@@ -4,9 +4,11 @@ using Explorer.Blog.Core.Domain.BlogPosts;
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Encounters.API.Dtos;
 using Explorer.Encounters.API.Public;
+using Explorer.Encounters.Core.Domain.Encounters;
 using Explorer.Stakeholders.Infrastructure.Authentication;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
+using Explorer.Tours.Core.Domain.Tours;
 using Explorer.Tours.Core.UseCases.Administration;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
@@ -49,9 +51,10 @@ namespace Explorer.API.Controllers.Author.Administration
         }
 
         [HttpPut("add/{encounterId:int}/{touristId:int}")]
-        public Result<EncounterDto> FinishEncounter(int encounterId, int touristId)
+        public ActionResult<EncounterDto> FinishEncounter(int encounterId, int touristId)
         {
-            throw new NotImplementedException();
+            var result = _encounterService.FinishEncounter(encounterId, touristId);
+            return CreateResponse(result);
         }
     }
 }

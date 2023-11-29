@@ -31,7 +31,9 @@ namespace Explorer.Encounters.Infrastructure
         private static void SetupCore(IServiceCollection services)
         {
             services.AddScoped<IEncounterService, EncounterService>();
-            services.AddScoped<IInternalCheckpointService, InternalCheckpointService>();
+            services.AddScoped<IInternalCheckpointService, InternalCheckpointService>(); 
+            services.AddScoped<IInternalCustomerService, InternalCustomerService>();
+
 
         }
 
