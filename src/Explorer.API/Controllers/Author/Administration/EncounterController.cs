@@ -5,11 +5,13 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Encounters.API.Dtos;
 using Explorer.Encounters.API.Public;
 using Explorer.Stakeholders.Infrastructure.Authentication;
+using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.UseCases.Administration;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Explorer.API.Controllers.Author.Administration
@@ -44,6 +46,12 @@ namespace Explorer.API.Controllers.Author.Administration
 
             var result = _encounterService.Create(encounter, checkpointId, isSecretPrerequisite,User.PersonId());
             return CreateResponse(result);
+        }
+
+        [HttpPut("add/{encounterId:int}/{touristId:int}")]
+        public Result<EncounterDto> FinishEncounter(int encounterId, int touristId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

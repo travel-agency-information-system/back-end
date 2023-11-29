@@ -4,6 +4,8 @@ using Explorer.Encounters.API.Public;
 using Explorer.Encounters.Core.Domain.Encounters;
 using Explorer.Encounters.Infrastructure.Database;
 using Explorer.Tours.API.Dtos;
+using Explorer.Tours.Core.Domain.Tours;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -124,6 +126,26 @@ public class EncounterCommandTests : BaseEncountersIntegrationTest
         result.ShouldNotBeNull();
         result.StatusCode.ShouldBe(expectedResponseCode);
     }
+
+    [Fact]
+    public void FinishEncounterSuccessfully()
+    {
+        // Arrange
+        using var scope = Factory.Services.CreateScope();
+        var controller = CreateController(scope);
+        var dbContext = scope.ServiceProvider.GetRequiredService<EncountersContext>();
+        var expectedResponseCode = 200;
+        var encounterId = -3;
+        var touristId = -2;
+
+        // Act
+        var result = (ObjectResult)controller.FinishEncounter(encounterId,touristId).Result;
+
+        //Assert
+        result.ShouldNotBeNull();
+        result.StatusCode.ShouldBe(expectedResponseCode);
+    }
+
     private static EncounterController CreateController(IServiceScope scope)
     {
         return new EncounterController(scope.ServiceProvider.GetRequiredService<IEncounterService>())

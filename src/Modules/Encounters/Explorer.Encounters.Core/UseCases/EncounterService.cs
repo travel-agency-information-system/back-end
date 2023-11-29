@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Encounters.Core.Mappers;
 using Explorer.Encounters.API.Dtos;
 using Explorer.Encounters.API.Internal;
 using Explorer.Encounters.API.Public;
@@ -7,6 +8,7 @@ using Explorer.Encounters.Core.Domain.Encounters;
 using Explorer.Encounters.Core.Domain.RepositoryInterfaces;
 using Explorer.Stakeholders.Core.Domain;
 using FluentResults;
+using System.Data;
 
 namespace Explorer.Encounters.Core.UseCases
 {
@@ -14,10 +16,12 @@ namespace Explorer.Encounters.Core.UseCases
     {
         private readonly IEncounterRepository _encounterRepository;
         private readonly IInternalCheckpointService _internalCheckpointService;
-        public EncounterService(IEncounterRepository encounterRepository,IInternalCheckpointService internalCheckpointService, IMapper mapper) : base(encounterRepository, mapper)
+        private readonly IInternalCustomerService _internalCustomerService;
+        public EncounterService(IEncounterRepository encounterRepository,IInternalCheckpointService internalCheckpointService, IInternalCustomerService internalCustomerService, IMapper mapper) : base(encounterRepository, mapper)
         {
             _encounterRepository= encounterRepository;
             _internalCheckpointService= internalCheckpointService;
+            _internalCustomerService= internalCustomerService;
         }
 
         public Result<EncounterDto> Create(EncounterDto encounterDto,long checkpointId,bool isSecretPrerequisite,long userId)
@@ -53,11 +57,25 @@ namespace Explorer.Encounters.Core.UseCases
                 return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
             }
             return MapToDto(result);
-
-
         }
 
+        public Result<EncounterDto> FinishEncounter(int encounterId, int touristId)
+        {
+            Encounter encounter = _encounterRepository.Get(encounterId);
+
+            if (encounter == null)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError("Encounter not found.");
+            }
 
 
+            _internalCustomerService.AddXpToCustomer(touristId, encounter.XP);
+            CompletedEncounter completedEncounter = new CompletedEncounter(touristId, DateTime.Now);
+            encounter.FinishEncounter(completedEncounter);
+            var result = _encounterRepository.Update(encounter);
+            return MapToDto(result);
+        }
+
+        
     }
 }

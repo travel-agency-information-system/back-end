@@ -6,4 +6,6 @@ public class CustomerDto
     public long UserId { get; set; }
     public List<TourPurchaseTokenDto>? TourPurchaseTokens { get; set; }
     public long ShoppingCartId { get; set; }
+    public int? Xp { get; set; }
+    public int? Level { get; set; }
 }

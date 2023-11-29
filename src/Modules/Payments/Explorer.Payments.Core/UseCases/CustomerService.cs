@@ -86,4 +86,18 @@ public class CustomerService : BaseService<CustomerDto, Customer>, ICustomerServ
             return Result.Fail(FailureCode.NotFound).WithError(e.Message);
         }
     }
+
+    public Result<CustomerDto> Update(CustomerDto customerDto)
+    {
+        Customer customer = MapToDomain(customerDto);
+        try
+        {
+            var result = _customerRepository.Update(customer);
+            return MapToDto(result);
+        }
+        catch (ArgumentException e)
+        {
+            return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
+        }
+    }
 }

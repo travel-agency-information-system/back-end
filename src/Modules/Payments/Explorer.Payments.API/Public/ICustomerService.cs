@@ -9,5 +9,6 @@ public interface ICustomerService
     Result<CustomerDto> Create(CustomerDto customer);
     Result<List<long>> GetPurchasedToursByUser(long userId);
     Result<bool> IsTourPurchasedByUser(long userId, long tourId);
+    Result<CustomerDto> Update(CustomerDto customerDto); 
 }
 
