@@ -31,12 +31,5 @@ namespace Explorer.API.Controllers.Tourist.Shopping
             var result = _service.PaymentAdventureCoins(userId, adventureCoins);
             return CreateResponse(result);
         }
-
-        [HttpPost("create-wallet")]
-        public ActionResult<TouristWalletDto> GetAdventureCoins([FromBody] TouristWalletDto touristWalletDto)
-        {
-            var result = _service.Create(touristWalletDto);
-            return CreateResponse(result);
-        }
     }
 }

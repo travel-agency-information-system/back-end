@@ -24,14 +24,14 @@ namespace Explorer.Payments.Tests.Integration
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
-            int newAdventureCoins = 3;
+            int newAdventureCoins = 50;
 
             // Act
-            var result = ((ObjectResult)controller.PaymentAdventureCoins(-23, newAdventureCoins).Result)?.Value as TouristWalletDto;
+            var result = ((ObjectResult)controller.PaymentAdventureCoins(-22, newAdventureCoins).Result)?.Value as TouristWalletDto;
 
             // Assert - Response
             result.ShouldNotBeNull();
-            result.AdventureCoins.ShouldBe(3);
+            result.AdventureCoins.ShouldBe(400);
 
         }
 
