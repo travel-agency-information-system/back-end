@@ -31,7 +31,7 @@ namespace Explorer.Tours.Core.Domain.TourExecutions
             {
                 double a = Math.Abs(Math.Round(checkpoint.Longitude, 4) - Math.Round(longitude, 4));
                 double b = Math.Abs(Math.Round(checkpoint.Latitude, 4) - Math.Round(latitude, 4));
-                if (a < 0.01 && b < 0.01)
+                if (a < 0.0005 && b < 0.0005)
                 {
                     CheckpointCompletition checkpointCompletition = new CheckpointCompletition(checkpoint.Id);
                     if (CompletedCheckpoints.Find(c => c.TourExecutionId == Id && c.CheckpointId == checkpoint.Id) == null)
