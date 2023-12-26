@@ -30,6 +30,7 @@ namespace Explorer.Stakeholders.Core.UseCases
                 return Result.Fail(FailureCode.InvalidArgument).WithError("You cannot send message.");
             }
             messageDto.SenderUsername = _userRepository.GetUserById(messageDto.SenderId).Username;
+            messageDto.RecipientUsername = _userRepository.GetUserById(messageDto.RecipientId).Username;
             var message = _messageRepository.Send(MapToDomain(messageDto));
             var notification = _notificationRepository.CreateMessageNotification("New message: " + message.Title, message.RecipientId, message.Id);
 
@@ -54,6 +55,8 @@ namespace Explorer.Stakeholders.Core.UseCases
             return MapToDto(unreadMessages);
         }
 
+
+
         private bool CanSend(MessageDto messageDto)
         {
             var isSenderExists = _userRepository.GetAll().Any(u => u.Id == messageDto.SenderId);
@@ -61,12 +64,29 @@ namespace Explorer.Stakeholders.Core.UseCases
             var senderSocialProfile = _socialProfileRepository.Get(messageDto.SenderId);
             var isFollower = senderSocialProfile.IsFollower(messageDto.RecipientId);
 
-            return isSenderExists && isRecipientExists && isFollower;
+            return true; /*isSenderExists && isRecipientExists && isFollower*/;
         }
         public Result<MessageDto> MarkAsRead(int id)
         {
             var readMessage = _messageRepository.MarkAsRead(id);
             return MapToDto(readMessage);
+        }
+
+        public Result<List<List<MessageDto>>> GetChats(int userId)
+        {
+            var chats = _messageRepository.GetChats(userId);
+            
+            /*
+            var chatsDto = new Result<List<List<MessageDto>>>();
+
+            foreach (var chat in chats)
+            {
+                var chatDto = MapToDto(chat);
+                chatsDto.Value.Add(chatDto.Value);
+            }
+            return chatsDto;
+            */
+            return MapToDto(chats);
         }
     }
 }

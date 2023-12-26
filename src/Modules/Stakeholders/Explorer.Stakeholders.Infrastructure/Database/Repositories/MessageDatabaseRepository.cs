@@ -41,5 +41,22 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
         {
             return DbContext.Messages.Where(m => m.RecipientId == userId).ToList();
         }
+
+        public List<List<Message>> GetChats(int userId)
+        {
+            // Retrieve messages where the user is either the sender or recipient
+            var messages = DbContext.Messages
+                .Where(m => m.SenderId == userId || m.RecipientId == userId)
+                .OrderBy(m => m.SentDateTime)  // Sort messages by the time they were sent
+                .ToList();
+
+            // Group messages by sender and recipient
+            var groupedChats = messages
+                .GroupBy(m => m.SenderId == userId ? m.RecipientId : m.SenderId)
+                .Select(group => group.ToList())
+                .ToList();
+
+            return groupedChats;
+        }
     }
 }

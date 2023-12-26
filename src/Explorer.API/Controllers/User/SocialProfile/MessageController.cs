@@ -1,5 +1,6 @@
 ﻿using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +58,13 @@ namespace Explorer.API.Controllers.User.SocialProfile
         {
             var notifications = _messageService.GetAllUnread(userId);
             return CreateResponse(notifications);
+        }
+
+        [HttpGet("chats")]
+        public ActionResult<List<List<MessageDto>>> GetChats()
+        {
+            var chats = _messageService.GetChats(User.PersonId());
+            return CreateResponse(chats);
         }
 
         [HttpPut("read/{id:int}")]

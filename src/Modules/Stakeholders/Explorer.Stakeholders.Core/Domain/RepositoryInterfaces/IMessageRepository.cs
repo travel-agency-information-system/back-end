@@ -9,5 +9,6 @@ namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
         List<Message> GetAllSent(int userId);
         List<Message> GetAllReceived(int userId);
         Message Send(Message message);
+        List<List<Message>> GetChats(int userId);
     }
 }

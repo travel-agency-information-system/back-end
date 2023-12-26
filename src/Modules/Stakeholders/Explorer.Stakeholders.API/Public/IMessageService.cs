@@ -16,5 +16,7 @@ namespace Explorer.Stakeholders.API.Public
         Result<List<MessageDto>> GetAllReceived(int userId);
         Result<List<MessageDto>> GetAllUnread(int userId);
         Result<MessageDto> MarkAsRead(int id);
+
+        Result<List<List<MessageDto>>> GetChats(int userId);
     }
 }
