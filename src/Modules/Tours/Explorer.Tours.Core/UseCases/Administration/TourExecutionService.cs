@@ -14,6 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Tours.API.Public.Recommendation;
+using Explorer.Tours.Core.Domain;
+using Explorer.Tours.Core.UseCases.Recommendation;
 
 
 namespace Explorer.Tours.Core.UseCases.Administration
@@ -24,12 +27,17 @@ namespace Explorer.Tours.Core.UseCases.Administration
         private TourExecutionMapper _tourExecutionMapper;
         private readonly ITourRepository _tourRepository;
         private readonly IInternalTourOwnershipService _tourOwnershipService;
-        public TourExecutionService(ITourExecutionRepository repository, IMapper mapper, ITourRepository tourRepository, IInternalTourOwnershipService tourOwnershipService) : base(repository, mapper)
+        private readonly IInternalFollowersService _touristFollowersService;
+        private readonly TourPreviewMapper _tourPreviewMapper;
+        public TourExecutionService(ITourExecutionRepository repository, IMapper mapper, ITourRepository tourRepository,
+                                    IInternalTourOwnershipService tourOwnershipService, IInternalFollowersService touristFollowersService) : base(repository, mapper)
         {
             _tourExecutionRepository = repository;
             _tourRepository = tourRepository;
             _tourExecutionMapper = new TourExecutionMapper();
             _tourOwnershipService = tourOwnershipService;
+            _touristFollowersService = touristFollowersService;
+            _tourPreviewMapper = new TourPreviewMapper();
         }
 
         public Result<TourExecutionDto> CheckPosition(TouristPositionDto position, long id)
@@ -81,6 +89,49 @@ namespace Explorer.Tours.Core.UseCases.Administration
             
         }
 
+        public Result<List<TourPreviewDto>> GetSuggestedTours(long finishedTourId, long loggedUser, Result<List<TourPreviewDto>> foundedToursByAlgorithm)
+        {
+            var followerIds = _touristFollowersService.GetFollowerIds(loggedUser);
+
+            var completedExecutions = _tourExecutionRepository.GetCompletedByTour(finishedTourId);
+
+           //Ista kao i on,treba mi ID turiste
+            var completedExecutionsByFollowers = completedExecutions.FindAll(f => followerIds.Contains(f.TouristId)).Distinct();
+
+            var allCompletedExecutions = _tourExecutionRepository.GetAllCompleted();
+
+            var suggestedTours = new List<TourPreview>();
+
+            foreach (var ace in allCompletedExecutions)
+            {
+                foreach (var ce in completedExecutionsByFollowers)
+                {
+                    if (ace.TouristId == ce.TouristId && ace.TourId != finishedTourId)
+                    {
+                        suggestedTours.Add(ace.Tour.FilterView(ace.Tour));
+                    }
+                }
+            }
+
+
+            var result = new List<TourPreview>();
+
+            foreach (var st in suggestedTours)
+            {
+                foreach (var ft in foundedToursByAlgorithm.Value)
+                {
+                    if (st.Id == ft.Id)
+                    {
+                        result.Add(st);
+                    }
+                }
+            }
+
+            return _tourPreviewMapper.createDtoList(result);
+
+        }
+
+
         public Result<List<TourExecutionDto>> GetActiveTourExecutions()
         {
             try
@@ -98,6 +149,7 @@ namespace Explorer.Tours.Core.UseCases.Administration
                 return Result.Fail(FailureCode.NotFound).WithError(e.Message);
             }
         }
+
 
     }
 }
