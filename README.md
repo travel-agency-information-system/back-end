@@ -8,6 +8,10 @@ Tourists can purchase, start tours, complete challenges, connect with each other
 
 The project was carried out using the SCRUM agile methodology for software development. We held weekly sprints where we discussed each software increment. We used a Trello board for writing user stories, where SCRUM masters assigned tasks to other team members, allowing us to easily track the project's progress.
 
+Additionally, we had several meetings with our clients where we gathered user requirements, discussed potential issues and solutions, and received their feedback on testing the application.
+
+At the end of the project, we conducted a presentation where we showcased our projects to the entire generation, professors, and assistants, striving to effectively "sell" our product.
+
 ## Technologies
 
 - ***Server platform***: C# + .NET (ASP.NET)
