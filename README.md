@@ -24,6 +24,14 @@ For the server-side (back-end), we used C# with the ASP.NET framework, while for
 
 Data storage was handled using a relational database (PostgreSQL).
 
+## Testing
+
+An important aspect of our application was writing **unit** and **integration tests**, where we tested each method of the controller separately. 
+
+Initially, we wrote tests after completing functionality. 
+
+Over time, we transitioned to **Test-Driven Development (TDD)**, where we first wrote a test that failed, and then we developed the logic. Functionality was considered complete when the test passed successfully.
+
 ## Getting started
 
 To set up the project locally, follow these steps:
